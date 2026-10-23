@@ -1,9 +1,20 @@
+<?php
+    session_start();
+
+    if(isset($_POST['wyloguj'])) 
+    {
+        session_destroy();
+        header("Location: index.php");
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Czekolandia</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         .niewidoczne
         {
@@ -15,6 +26,24 @@
             border-collapse: collapse;
             padding:5px;
             text-align:center;
+        }
+        .modal
+        {
+            position:fixed;
+            z-index:1;
+            left:0;
+            top:0;
+            height:100%;
+            width:100%;
+            background-color: rgba(0,0,0,0.4); 
+        }
+        .modal-content
+        {
+            background-color: #fefefe;
+            margin: 15% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
         }
     </style>
 </head>
@@ -33,7 +62,7 @@
             }
             else
             {
-                echo("<form method='POST'><input type='submit' name='wyloguj' value='wyloguj'/></form>");
+                echo("<form method='POST'><input type='submit' name='wyloguj' value='Wyloguj'/></form><br>");
 
                 $connect = new PDO("mysql:host=localhost;dbname=czekolandia", "root", "");
                 $login = $_SESSION['czekolandia'];
@@ -50,15 +79,6 @@
     <footer>
 
     </footer>
-
-    <?php
-    if(isset($_POST['wyloguj'])) 
-    {
-        session_destroy();
-        header("Location: index.php");
-    }
-
-?>
     
 </body>
 </html>

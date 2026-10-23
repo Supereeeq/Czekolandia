@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Czekolandia</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>Witaj w <a href="index.php">Czekolandii</a></h1>
     </header>
     <main>
-        <form method="POST">
+        <form method="POST"  class="form-logowania">
             <h3>Zarejestruj się</h3>
             <input type="text" placeholder="Podaj login" name="login"/>
             <input type="text" placeholder="Podaj maila" name="mail"/><br/><br/>
@@ -28,6 +29,7 @@
     session_start();
     
     ini_set('display_errors', 1);
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $connect = new PDO("mysql:host=localhost;dbname=czekolandia", "root", "");
     
@@ -54,7 +56,7 @@
         exit();
     }
 
-    $query = $connect->prepare("INSERT INTO `users` (`login`,`mail`,`haslo`) VALUES (:login,:mail,:haslo);");
+    $query = $connect->prepare("INSERT INTO `users` (`login`,`mail`,`haslo`,`admin`) VALUES (:login,:mail,:haslo,'0');");
     $query->execute([
         "login" => $_POST["login"],
         "mail" => $_POST["mail"],
@@ -65,7 +67,7 @@
 
     $_SESSION["czekolandia"] = $_POST["login"];
     header("Location:index.php");
-
+    }
 ?>
     
 </body>
